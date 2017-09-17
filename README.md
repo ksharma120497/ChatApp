@@ -6,3 +6,4 @@
 - [x] Server closes after one message</br>
 - [ ] No GUI yet</br>
 - [ ] Isnt a real world time based app</br>
+Note :- Only works between devices that are connected to the same network or router.</br>
