@@ -12,28 +12,33 @@ import java.io.*;
 import java.net.*;
 public class ChatClient {
     public static void main(String args[]) throws Exception{
-        //Sending
-        Socket sock= new Socket("127.0.0.1",5000);
+        //Instantiating all the Output Input Streams
+        Socket sock= new Socket("127.0.0.1",5000); 
+        BufferedReader read= new BufferedReader(new InputStreamReader(System.in)); //reading values to send
+        //Starting writing sreams 
         OutputStream istream= sock.getOutputStream();
-        OutputStreamWriter isr=new OutputStreamWriter(istream);
-        BufferedWriter bufr=new BufferedWriter(isr);
-        BufferedReader read= new BufferedReader(new InputStreamReader(System.in));
-        String msg1=read.readLine();
-       bufr.write(msg1);
-        bufr.close();
-        isr.close();
-        istream.close();
-        sock.close();
-        //Receiving 
-         Socket sock1= new Socket("127.0.0.1",8000);
-        InputStream istream1= sock1.getInputStream();
-        InputStreamReader isr1=new InputStreamReader(istream1);
-        BufferedReader bufr1=new BufferedReader(isr1);
-        String msg=bufr1.readLine();
-        System.out.println(msg);
-        bufr1.close();
-        isr1.close();
-        istream1.close();
-        sock1.close();
+        PrintWriter isr= new PrintWriter(istream);
+        //Ending writing streams
+        //starting reading steams
+        InputStream input= sock.getInputStream();
+        BufferedReader recieve= new BufferedReader(new InputStreamReader(input));// reading values that are recieved
+        String msg1,msg2;
+     //Sending receiving 
+        try{  
+            while(true)
+          {
+              if( (msg1=read.readLine()) != null)
+              {
+                  isr.println(msg1); // printing the msg to the server
+                  isr.flush(); // flushing the msg out
+              }
+              if((msg2=recieve.readLine()) != null){ // reading the recived msg 
+                  System.out.println(msg2); // displaying what you receieve 
+              }
+          }
+    }
+        catch(NullPointerException n){
+            System.out.println("Chat Ended");
+        }
     }
 }
